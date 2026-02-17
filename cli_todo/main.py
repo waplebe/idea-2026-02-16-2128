@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 def load_tasks():
     """Loads tasks from the todo.txt file."""
@@ -28,19 +29,16 @@ def main():
         print("No tasks provided.")
         return
 
-    if any(args.task[0].startswith("complete") for args.task):
-        # Handle complete commands
-        for task in args.task:
-            if task.startswith("complete"):
-                task_to_complete = task[len("complete"):].strip()
-                try:
-                    index = tasks.index(task_to_complete)
-                    tasks[index] = "[x] " + tasks[index]
-                except ValueError:
-                    print(f"Task '{task_to_complete}' not found.")
-            else:
-                # Add new tasks
-                tasks.append(task)
+    for action in args.task:
+        if action.startswith("complete"):
+            task_to_complete = action[len("complete"):].strip()
+            try:
+                index = tasks.index(task_to_complete)
+                tasks[index] = "[x] " + tasks[index]
+            except ValueError:
+                print(f"Task '{task_to_complete}' not found.")
+        else:
+            tasks.append(action)
 
     print("Tasks:")
     for task in tasks:

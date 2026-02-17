@@ -41,6 +41,17 @@ class TestMain(unittest.TestCase):
         main.save_tasks(["complete task1"])
         self.assertEqual(self.captured_output.getvalue().strip(), "Task 'task1' not found.\n")
 
-if __name__ == '__main__':
-    import sys
-    unittest.main()
+    def test_multiple_complete_tasks(self):
+        main.save_tasks(["task1", "task2", "task3"])
+        main.save_tasks(["complete task1", "complete task2"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n- task2\n- task3\n")
+
+    def test_complete_nonexistent_task(self):
+        main.save_tasks(["task1"])
+        main.save_tasks(["complete task2"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Task 'task2' not found.\n")
+
+    def test_empty_todo_file(self):
+        main.save_tasks([])
+        main.save_tasks(["--completed"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "No completed tasks.\n")
