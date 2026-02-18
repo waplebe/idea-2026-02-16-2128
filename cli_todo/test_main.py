@@ -55,3 +55,18 @@ class TestMain(unittest.TestCase):
         main.save_tasks([])
         main.save_tasks(["--completed"])
         self.assertEqual(self.captured_output.getvalue().strip(), "No completed tasks.\n")
+
+    def test_task_with_leading_and_trailing_whitespace(self):
+        main.save_tasks([" task1 "])
+        main.save_tasks(["complete task1 "])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n")
+
+    def test_task_with_multiple_spaces(self):
+        main.save_tasks(["task1   "])
+        main.save_tasks(["complete task1   "])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n")
+
+    def test_task_with_special_characters(self):
+        main.save_tasks(["task!@#$%^"])
+        main.save_tasks(["complete task!@#$%^"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task!@#$%^\n")

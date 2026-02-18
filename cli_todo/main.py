@@ -1,20 +1,26 @@
 import argparse
 import sys
+import os
 
 def load_tasks():
     """Loads tasks from the todo.txt file."""
-    try:
-        with open("todo.txt", "r") as f:
-            tasks = [line.strip() for line in f.readlines()]
-    except FileNotFoundError:
-        tasks = []
+    tasks = []
+    if os.path.exists("todo.txt"):
+        try:
+            with open("todo.txt", "r") as f:
+                tasks = [line.strip() for line in f.readlines()]
+        except Exception as e:
+            print(f"Error loading tasks: {e}")
     return tasks
 
 def save_tasks(tasks):
     """Saves tasks to the todo.txt file."""
-    with open("todo.txt", "w") as f:
-        for task in tasks:
-            f.write(f"{task}\n")
+    try:
+        with open("todo.txt", "w") as f:
+            for task in tasks:
+                f.write(f"{task}\n")
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
 
 def main():
     parser = argparse.ArgumentParser(description="A simple command-line todo list.")

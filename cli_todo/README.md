@@ -39,7 +39,7 @@ The todo list is persisted to a file named `todo.txt`. Each task is written on a
 
 Comprehensive unit tests are included to ensure the functionality of the todo list.
 
-## Example
+## Examples
 
 ```bash
 # Add some tasks
