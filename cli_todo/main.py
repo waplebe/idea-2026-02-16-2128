@@ -22,6 +22,24 @@ def save_tasks(tasks):
     except Exception as e:
         print(f"Error saving tasks: {e}")
 
+def mark_complete(task, tasks):
+    """Marks a task as complete."""
+    try:
+        index = tasks.index(task)
+        tasks[index] = "[x] " + tasks[index]
+    except ValueError:
+        print(f"Task '{task}' not found.")
+
+def view_completed_tasks(tasks):
+    """Views completed tasks."""
+    completed_tasks = [task for task in tasks if task.startswith("[x]")]
+    if completed_tasks:
+        print("\nCompleted Tasks:")
+        for task in completed_tasks:
+            print(f"- {task}")
+    else:
+        print("\nNo completed tasks.")
+
 def main():
     parser = argparse.ArgumentParser(description="A simple command-line todo list.")
     parser.add_argument("task", nargs='*', help="The task to add or mark as complete.")
@@ -38,11 +56,7 @@ def main():
     for action in args.task:
         if action.startswith("complete"):
             task_to_complete = action[len("complete"):].strip()
-            try:
-                index = tasks.index(task_to_complete)
-                tasks[index] = "[x] " + tasks[index]
-            except ValueError:
-                print(f"Task '{task_to_complete}' not found.")
+            mark_complete(task_to_complete, tasks)
         else:
             tasks.append(action)
 
@@ -51,13 +65,7 @@ def main():
         print(f"- {task}")
 
     if args.completed:
-        completed_tasks = [task for task in tasks if task.startswith("[x]")]
-        if completed_tasks:
-            print("\nCompleted Tasks:")
-            for task in completed_tasks:
-                print(f"- {task}")
-        else:
-            print("\nNo completed tasks.")
+        view_completed_tasks(tasks)
 
     save_tasks(tasks)
 

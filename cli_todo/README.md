@@ -29,11 +29,14 @@ This is a command-line tool for managing a todo list. It now includes the abilit
     This prints only the completed tasks to the console.
 
 *   **Clear the list:**
-    Delete the `todo.txt` file.
+    ```bash
+    python main.py --clear
+    ```
+    This deletes the `todo.txt` file, effectively clearing the todo list.
 
 ## Persistence
 
-The todo list is persisted to a file named `todo.txt`. Each task is written on a new line. Completed tasks are prefixed with "[x]".  To view the list, run the script again. To clear the list, delete the `todo.txt` file.
+The todo list is persisted to a file named `todo.txt`. Each task is written on a new line. Completed tasks are prefixed with "[x]".  To view the list, run the script again. To clear the list, delete the `todo.txt` file or use the `--clear` flag.
 
 ## Testing
 
@@ -53,4 +56,7 @@ python main.py
 
 # View completed tasks
 python main.py --completed
+
+# Clear the list
+python main.py --clear
 ```

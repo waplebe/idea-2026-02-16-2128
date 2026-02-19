@@ -70,3 +70,19 @@ class TestMain(unittest.TestCase):
         main.save_tasks(["task!@#$%^"])
         main.save_tasks(["complete task!@#$%^"])
         self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task!@#$%^\n")
+
+    def test_clear_list(self):
+        main.save_tasks(["task1"])
+        main.save_tasks(["--clear"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n")
+        self.assertTrue(os.path.exists("todo.txt"))
+
+    def test_add_task_with_spaces(self):
+        main.save_tasks([" task1  "])
+        main.save_tasks(["complete task1  "])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n")
+
+    def test_add_multiple_tasks_with_spaces(self):
+        main.save_tasks([" task1  task2  "])
+        main.save_tasks(["complete task1  "])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n- task2\n")
