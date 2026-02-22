@@ -40,10 +40,25 @@ def view_completed_tasks(tasks):
     else:
         print("\nNo completed tasks.")
 
+def add_task(task, tasks):
+    """Adds a task to the list."""
+    tasks.append(task)
+
+def clear_list(tasks):
+    """Clears the todo list by deleting the todo.txt file."""
+    try:
+        os.remove("todo.txt")
+        print("Todo list cleared.")
+    except FileNotFoundError:
+        print("Todo list is already empty.")
+    except Exception as e:
+        print(f"Error clearing list: {e}")
+
 def main():
     parser = argparse.ArgumentParser(description="A simple command-line todo list.")
     parser.add_argument("task", nargs='*', help="The task to add or mark as complete.")
     parser.add_argument("--completed", action="store_true", help="View completed tasks.")
+    parser.add_argument("--clear", action="store_true", help="Clear the todo list.")
 
     args = parser.parse_args()
 
@@ -57,8 +72,13 @@ def main():
         if action.startswith("complete"):
             task_to_complete = action[len("complete"):].strip()
             mark_complete(task_to_complete, tasks)
+        elif action.startswith("add"):
+            task_to_add = action[len("add"):].strip()
+            add_task(task_to_add, tasks)
+        elif action == "--clear":
+            clear_list(tasks)
         else:
-            tasks.append(action)
+            print(f"Invalid action: {action}")
 
     print("Tasks:")
     for task in tasks:

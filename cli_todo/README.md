@@ -38,6 +38,12 @@ This is a command-line tool for managing a todo list. It now includes the abilit
 
 The todo list is persisted to a file named `todo.txt`. Each task is written on a new line. Completed tasks are prefixed with "[x]".  To view the list, run the script again. To clear the list, delete the `todo.txt` file or use the `--clear` flag.
 
+## New Features
+
+*   **Add Tasks:**  The script now supports adding tasks directly using the `add` command.  For example, `python main.py add buy groceries`.
+*   **Clear List:** Added a `--clear` flag to remove all tasks from the todo list by deleting the `todo.txt` file.
+*   **Clear List when Empty:** Added a test case to ensure the clear list functionality works correctly when the todo list is already empty.
+
 ## Testing
 
 Comprehensive unit tests are included to ensure the functionality of the todo list.
@@ -46,7 +52,7 @@ Comprehensive unit tests are included to ensure the functionality of the todo li
 
 ```bash
 # Add some tasks
-python main.py buy groceries walk the dog clean the house
+python main.py task1 task2 task3
 
 # Mark "buy groceries" as complete
 python main.py complete buy groceries

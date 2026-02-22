@@ -74,15 +74,26 @@ class TestMain(unittest.TestCase):
     def test_clear_list(self):
         main.save_tasks(["task1"])
         main.save_tasks(["--clear"])
-        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n")
+        self.assertEqual(self.captured_output.getvalue().strip(), "Todo list cleared.\n")
+        self.assertTrue(os.path.exists("todo.txt"))
+
+    def test_add_task(self):
+        main.save_tasks([])
+        main.save_tasks(["add new task"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- new task\n")
+
+    def test_clear_list_when_empty(self):
+        main.save_tasks([])
+        main.save_tasks(["--clear"])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Todo list cleared.\n")
         self.assertTrue(os.path.exists("todo.txt"))
 
     def test_add_task_with_spaces(self):
-        main.save_tasks([" task1  "])
-        main.save_tasks(["complete task1  "])
-        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n")
+        main.save_tasks([])
+        main.save_tasks(["add  new task  "])
+        self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- new task\n")
 
     def test_add_multiple_tasks_with_spaces(self):
-        main.save_tasks([" task1  task2  "])
-        main.save_tasks(["complete task1  "])
+        main.save_tasks([])
+        main.save_tasks(["add task1   task2  "])
         self.assertEqual(self.captured_output.getvalue().strip(), "Tasks:\n- task1\n- task2\n")
